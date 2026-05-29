@@ -1,7 +1,8 @@
 services:
-  app:
+  dados:
     build: .
-    container_name: app
+    image: dados
+    container_name: dados
     ports:
       - "8000:80"
     depends_on:
