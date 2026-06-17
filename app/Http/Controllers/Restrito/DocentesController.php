@@ -17,7 +17,7 @@ use function Illuminate\Log\log;
 class DocentesController extends Controller
 {
     
-    private $header = ['NUSP',"Nome","Departamento","Mérito","Classe",   "Função","Status", "Ultima Ocorrência", "Fim do Vínculo", "Fim da Atividade"];
+    private $header = ['NUSP',"Nome","Departamento","Mérito","Classe","Função","Status", "Ultima Ocorrência", "Fim do Vínculo", "Fim da Atividade"];
     private $tipmer = ['MS-1','MS-2','MS-3','MS-4','MS-5','MS-6'];
     private $sitatl= [
             'A' => "Ativo",
@@ -93,6 +93,7 @@ class DocentesController extends Controller
         }
 
         $data = $data->get()->toarray();
+        $data = Util::ordena($this->keysLista, $data);
         
         Cache::put($request->session()->getId().'docentes',$data,600);
         return view('restrito.docentes',
@@ -111,7 +112,8 @@ class DocentesController extends Controller
 
 
         Gate::authorize('admin');
-        $keysDisciplinas = ['nomeDepartamento','meritoDocente','codpes','nomeDocente', 'disciplinas', 'media'];
+        $keysDisciplinas = ['codpes','nomeDepartamento','meritoDocente','nomeDocente','disciplinas', 'media'];
+        $disciplinaOrdem = ['codpes', 'nomeDepartamento', 'meritoDocente', 'nomeDocente', 'disciplina', 'turma'];
         
         $request->validate(
             [
@@ -148,7 +150,8 @@ class DocentesController extends Controller
                           ->where('turma', 'regex', $reg_ex)
                           ->get()
                           ->toarray();
-
+        $data = Util::ordena($disciplinaOrdem, $data);
+        
         //contar as disciplinas
         $dis_doscentes = [];
         foreach ($data as $tur) {
@@ -174,7 +177,6 @@ class DocentesController extends Controller
             unset($dis_doscentes[$n]["turma"]);
 
         }
-
 
         Cache::put($request->session()->getId().'docentes-disciplinas',$dis_doscentes,600);
         Cache::put($request->session()->getId().'docentes-disciplinas-semestres',$sem,600);
