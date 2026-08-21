@@ -20,3 +20,4 @@ RUN composer install \
     --no-interaction
 
 CMD ["apache2-foreground"]
+
