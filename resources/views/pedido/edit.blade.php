@@ -7,8 +7,12 @@
         @csrf
         @method('patch')
         @include('pedido.partials.form')
+        <br><br>
+        <button type="submit" name="status" value="Em Análise"  class="btn btn-warning">Mandar para análise</button>
+        <button type="submit" name="status" value="Em Produção"  class="btn btn-secondary">Colocar em Produção</button>
+        <button type="submit" name="status" value="Esperando Validação"  class="btn btn-info">Seguir para Validação</button>
+        <button type="submit" name="status" value="Finalizado"  class="btn btn-success">Finalizar</button>
         <button type="submit" name="status" value="Rejeitado" class="btn btn-danger">Rejeitar</button>
-        <button type="submit" name="status" value="Aprovado"  class="btn btn-success">Aprovar</button>
     </form>
 </div>
 

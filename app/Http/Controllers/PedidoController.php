@@ -34,7 +34,7 @@ class PedidoController extends Controller
             $validated['user_codpes'] = auth()->user()->codpes;
             
             $pedido = Pedido::create($validated);
-            $pedido->setStatus('Análise');
+            $pedido->setStatus('Em Análise');
             return redirect("/pedidos/$pedido->id");
         }else{
             return redirect()->back()->withInput()->with('alert-warning', "Você precisa estar logado.");
