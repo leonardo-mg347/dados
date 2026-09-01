@@ -7,7 +7,6 @@ use App\Models\Pedido;
 use App\Steppers\PedidoStepper;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
-use Uspdev\Replicado\Pessoa;
 
 class PedidoController extends Controller
 {
@@ -19,7 +18,6 @@ class PedidoController extends Controller
         }else{
             $pedidos = Pedido::all();
         }
-
         return view('pedido.index', ['pedidos' => $pedidos]);
     }
 
