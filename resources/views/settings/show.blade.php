@@ -27,11 +27,14 @@
     <div class="card-body">
         <div>
             <form action="/settings" method="post">
+                @csrf
                 <br>
                 <h2>Pedidos</h2>
                  <div class="form-group">
                      <label for="assunto" >E-mail de <strong>criação</strong> de pedido</label>
-                     <input type="text" name="assunto" class="form-control" value="{{ $criacao_pedido_mail }}">
+                     <input type="text" name="criacao_pedido_mail" class="form-control" value="{{ $criacao_pedido_mail }}">
+                     <br>
+                     <div class="text-center"><input type="submit" value="Alterar" class="btn btn-primary"></div>
                  </div>
             </form>
         </div>

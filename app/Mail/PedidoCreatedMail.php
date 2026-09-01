@@ -17,6 +17,7 @@ class PedidoCreatedMail extends Mailable implements ShouldQueue
     use Queueable, SerializesModels;
 
     private Pedido $pedido;
+    private GeneralSettings $settings;
 
     /**
      * Create a new message instance.
@@ -24,6 +25,7 @@ class PedidoCreatedMail extends Mailable implements ShouldQueue
     public function __construct(Pedido $pedido)
     {
         $this->pedido   = $pedido;
+        $this->settings = app(GeneralSettings::class);
     }
 
     /**
@@ -32,7 +34,7 @@ class PedidoCreatedMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'EAIP-FFLCH Nova solicitação cadastrada:',
+            subject: 'EAIP-FFLCH Nova solicitação cadastrada:' . $this->pedido->assunto,
         );
     }
 
@@ -45,6 +47,7 @@ class PedidoCreatedMail extends Mailable implements ShouldQueue
             view: 'emails.pedidos.create',
             with: [
                 'pedido'   => $this->pedido,
+                'settings' => $this->settings
             ],
         );
     }
