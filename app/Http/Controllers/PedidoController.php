@@ -7,6 +7,7 @@ use App\Models\Pedido;
 use App\Steppers\PedidoStepper;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Uspdev\Replicado\Pessoa;
 
 class PedidoController extends Controller
 {
@@ -28,9 +29,11 @@ class PedidoController extends Controller
 
     public function store(PedidoRequest $request){
         if(Gate::allows('user')){
+            $user = auth()->user();
             $validated = $request->validated();
-            $validated['user_codpes'] = auth()->user()->codpes;
-            
+            $validated['user_codpes'] = $user->codpes;
+            $validated['autor']       = $user->name;
+
             $pedido = Pedido::create($validated);
             $pedido->setStatus('Em Análise');
             return redirect("/pedidos/$pedido->id");
@@ -47,7 +50,8 @@ class PedidoController extends Controller
 
     public function edit(Pedido $pedido){
         Gate::authorize('admin');
-        return view('pedido.edit', [ 'pedido' => $pedido]);
+        $stepper = new PedidoStepper($pedido);
+        return view('pedido.edit', [ 'pedido' => $pedido, 'stepper' => $stepper->render()]);
     }
 
     public function update(PedidoRequest $request, Pedido $pedido){
@@ -58,6 +62,8 @@ class PedidoController extends Controller
         if($request->has('status')){
             $pedido->setStatus($request->status);
         } 
+        $pedido->touch(); // essa linha serve para disparar o updated() no observer caso não haja alteração no pedido
+
         $request->session()->flash('alert-info','Solicitação atualizada com sucesso.');
 
         return redirect("/pedidos/$pedido->id");

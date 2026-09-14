@@ -36,6 +36,11 @@
                      <label for="assunto" ><strong>Conteúdo</strong> do e-mail:</label>
                      <input type="text" name="criacao_pedido_mail" class="form-control" value="{{ $criacao_pedido_mail }}">
                      <br>
+                <h3>E-mail de <strong>alteração</strong> de pedido</h3>
+                 <div class="form-group">
+                     <label for="assunto" ><strong>Conteúdo</strong> do e-mail:</label>
+                     <input type="text" name="criacao_pedido_mail" class="form-control" value="{{ $alteracao_pedido_mail }}">
+                     <br>
                      <div class="text-center"><input type="submit" value="Salvar" class="btn btn-primary"></div>
                  </div>
             </form>
