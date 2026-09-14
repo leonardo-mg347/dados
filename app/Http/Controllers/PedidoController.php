@@ -47,7 +47,8 @@ class PedidoController extends Controller
 
     public function edit(Pedido $pedido){
         Gate::authorize('admin');
-        return view('pedido.edit', [ 'pedido' => $pedido]);
+        $stepper = new PedidoStepper($pedido);
+        return view('pedido.edit', [ 'pedido' => $pedido, 'stepper' => $stepper->render()]);
     }
 
     public function update(PedidoRequest $request, Pedido $pedido){
@@ -58,6 +59,8 @@ class PedidoController extends Controller
         if($request->has('status')){
             $pedido->setStatus($request->status);
         } 
+        $pedido->touch(); // essa linha serve para disparar o updated() no observer caso não haja alteração no pedido
+
         $request->session()->flash('alert-info','Solicitação atualizada com sucesso.');
 
         return redirect("/pedidos/$pedido->id");

@@ -12,7 +12,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use App\Settings\GeneralSettings;
 
-class PedidoCreatedMail extends Mailable implements ShouldQueue
+class PedidoUpdatedMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -34,7 +34,7 @@ class PedidoCreatedMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Portal de Dados | Nova solicitação cadastrada: '. $this->pedido->assunto,
+            subject: 'Portal de Dados | Solicitação Alterada: ' . $this->pedido->status . ' | ' . $this->pedido->assunto,
         );
     }
 
@@ -44,7 +44,7 @@ class PedidoCreatedMail extends Mailable implements ShouldQueue
     public function content(): Content
     {
         return new Content(
-            view: 'emails.pedidos.create',
+            view: 'emails.pedidos.update',
             with: [
                 'pedido'   => $this->pedido,
                 'settings' => $this->settings

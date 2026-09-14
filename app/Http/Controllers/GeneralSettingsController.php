@@ -14,7 +14,8 @@ class GeneralSettingsController extends Controller
         Gate::authorize('admin');
 
         return view('settings.show', [
-            'criacao_pedido_mail'         => $settings->criacao_pedido_mail,
+            'criacao_pedido_mail'   => $settings->criacao_pedido_mail,
+            'alteracao_pedido_mail' => $settings->alteracao_pedido_mail   
         ]);
     }
 
